@@ -50,8 +50,8 @@ begin
     s.add_development_dependency 'rspec',     '~> 2.0.0'
 
     s.add_dependency 'eventmachine'
-    s.add_dependency 'heroku', '~> 1.9'
-    s.add_dependency 'rack',   '~> 1.0'
+    s.add_dependency 'heroku', '> 2.2'
+    s.add_dependency 'rack',   '> 1.4'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

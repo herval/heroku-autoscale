@@ -5,7 +5,7 @@ require "rack"
 module Heroku
   class Autoscale
 
-    VERSION = "0.2.2"
+    VERSION = "0.3.0"
 
     attr_reader :app, :options, :last_scaled
 
@@ -54,7 +54,8 @@ private ######################################################################
     end
 
     def current_dynos
-      heroku.info(options[:app_name])[:dynos].to_i
+      ps = heroku.ps(options[:app_name])
+      ps.select { |p| p['process'].starts_with?("web.") }.size
     end
 
     def default_options
@@ -77,7 +78,7 @@ private ######################################################################
     end
 
     def set_dynos(count)
-      heroku.set_dynos(options[:app_name], count)
+      heroku.ps_scale(options[:app_name], :type => 'web', :qty => count)
       @last_scaled = Time.now
     end
 
